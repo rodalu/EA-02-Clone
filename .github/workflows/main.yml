@@ -1,0 +1,28 @@
+name: Clone Repository Workflow
+
+on:
+  push:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+    
+ job-public-repo-windows:
+    runs-on: windows-latest
+    steps:
+      
+      - name: APIOPS/poc-github-actions PUBLIC repository
+        uses: Rodel Alu/clone-github-repo-action@main
+        with:
+          owner: 'Rodel Aluzan'
+          repository: 'poc-github-actions'
+      
+      - name: Access cloned repository content
+        run: |
+          echo "ROOT"
+          ls -la
+          echo "CLONED REPO"
+          cd poc-github-actions
+          ls -la
+        shell: bash

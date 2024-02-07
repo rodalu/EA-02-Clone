@@ -1,0 +1,19 @@
+# import multiple remote git repositories to local Source dir
+
+ param (
+  [string]$localFolder = "C:\Users\rodel.boy.aluzan\Downloads\APIOPS-main.zip",
+  [array]$repos = @("myRepo", "repo1")
+ )
+$repoLocation = "https://github.com/rodalu/APIOPS.git"
+
+# for each repo found remotely, check if it exists locally
+# if dir exists, skip, if not, clone the remote git repo into it
+foreach ($gitRepo in $repos) {
+	If (Test-Path $localFolder\$gitRepo) {
+		echo "repo $gitRepo already exists"
+	}
+	Else {
+		echo "git clone $repoLocation$gitRepo $localFolder\$gitRepo"
+		git clone $repoLocation$gitRepo $localFolder\$gitRepo
+	}
+}

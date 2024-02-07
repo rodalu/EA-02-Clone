@@ -1,0 +1,28 @@
+name: Clone Repository2
+
+on:
+  push:
+  schedule:
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+
+jobs:
+    
+ job-public-repo-windows:
+    runs-on: windows-latest
+    steps:
+      
+      - name: APIOPS/apiops PUBLIC repository
+        uses: rodalu/APIOPS@main
+        with:
+          owner: 'rodalu'
+          repository: 'APIOPSs'
+      
+      - name: Access cloned repository content
+        run: |
+          echo "ROOT"
+          ls -la
+          echo "CLONED REPO"
+          cd APIOPS2
+          ls -la
+        shell: bash

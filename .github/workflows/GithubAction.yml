@@ -1,0 +1,37 @@
+name: GitHubActionsCloneRepo
+
+on:
+  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+  push:
+    branches: [ main ]
+    branches-ignore:
+    tags:
+    tags-ignore:
+    paths:
+      - 'README.md'  # limit trigger to the target-filepath.
+                     # It's not elegant to set same value in two options but
+                     # there is no way to retrieve this value in composite action.
+
+jobs:
+  main:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: rodalu/APIOPS
+        with:
+
+          # required parameters
+          target-filepath: 'README.md'      # file path to copy
+          output-branch: 'main'   # branch name to create pull request
+          output-repo: 'rodalu/REPO2'
+          git-token: ${{ secrets.TOKEN_TO_ACCESS_OUTPUT_REPO }}
+          
+          # optional parameters and default values
+          commit-message-prefix: '[actions] '   # followed by source repository and file name
+          output-directory: "${{ github.event.repository.name }}"   # copy file into sub directory
+          pr-branch-prefix: "actions/${{ github.event.repository.name }}"   # branch name prefix followed by date and time
+          pr-title: "GitHub Actions: ${{ github.event.repository.name }}"   # followed by source repository and file name
+          pr-message: "${{ github.workflow }} on ${{ github.server_url }}/${{ github.repository }}"   # followed by action repository
+          git-name: "github-actions[bot]"   # your name can be set by ${{ github.actor }}
+          git-email: 'github-actions[bot]@users.noreply.github.com'   # associated user icon is shown in commit page
+
+# {% endraw %}
